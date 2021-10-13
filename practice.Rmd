@@ -1,0 +1,47 @@
+---
+title: "Practice"
+author: "stephanedp"
+date: "10/13/2021"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## This is a correction for the practice
+
+Here are the lines of code to reshape the dataset:
+library(tidyverse)
+Calling the file from working directory:
+
+```{r}
+library(tidyverse)
+file<-read.table('C:/Users/ASUS/Desktop/Rclass/Data/rairuoho.txt', header=T, sep='\t', dec='.')
+```
+
+Now in this dataset, replacing "nutrient" in the column "treatment" with "enriched":
+
+```{r}
+file$treatment<-ifelse(file$treatment=="nutrient", "enriched", "water")
+```
+
+Now, creating a new factor 
+```{r}
+file_1<-file %>% pivot_longer (cols = day3:day8, names_to = "day", values_to = "Length")
+
+```
+
+Now combining columns "spatial1" and "spatial2" into a single column
+
+```{r}
+file_1<-file_1 %>% unite ("spatial", spatial1:spatial2, sep = "_") 
+```
+
+
+And finally removing "row" and "column":
+```{r}
+drop<-c("column", "row")
+file2=file_1[,!names(file_1) %in% drop]
+file2
+```
+
